@@ -26,6 +26,24 @@ trait Tree[+T] {
 					left.find(y)
 		}
 
+  def inOrder: List[T] =
+  	this match {
+  		case Empty => Nil
+  		case Node(x, left, right) => (left.inOrder :+ x) ::: right.inOrder 
+  	}
+  	
+  def preOrder: List[T] =
+  	this match {
+  		case Empty => Nil
+  	  case Node(x, left, right) => x :: left.preOrder ::: right.preOrder
+  	}
+
+  def postOrder: List[T] =
+  	this match {
+  		case Empty => Nil
+  	  case Node(x, left, right) => left.postOrder ::: (right.postOrder :+ x)
+  	}
+
 	// not entirely clear what the thinking is regarding mapping over bsts, its a bit improper...
 
 	// apply the function and return proper bst
@@ -41,11 +59,7 @@ trait Tree[+T] {
 			None
 	}
 
-	def values: List[T] =
-		this match {
-			case Empty => List.empty[T]
-			case Node(x, left, right) => x :: (left.values ::: right.values)
-		}
+	def values: List[T] = this.inOrder
 	
 }
 
@@ -65,8 +79,6 @@ object Tree {
 				Tree(h, Tree(less:_*), Tree(greater:_*))
 			}
 		}
-
-	def init[T : Ordering](x: T): Tree[T] = apply(x, Empty, Empty)
 
 	def tryInit[T: Ordering](x: T, left: Tree[T], right: Tree[T]): Option[Tree[T]] = {
 		val t = apply(x, left, right)
