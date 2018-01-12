@@ -26,23 +26,23 @@ trait Tree[+T] {
 					left.find(y)
 		}
 
-  def inOrder: List[T] =
-  	this match {
-  		case Empty => Nil
-  		case Node(x, left, right) => (left.inOrder :+ x) ::: right.inOrder 
-  	}
-  	
-  def preOrder: List[T] =
-  	this match {
-  		case Empty => Nil
-  	  case Node(x, left, right) => x :: left.preOrder ::: right.preOrder
-  	}
+	def inOrder: List[T] =
+		this match {
+	  		case Empty => Nil
+	  		case Node(x, left, right) => (left.inOrder :+ x) ::: right.inOrder 
+		}
+	  	
+	def preOrder: List[T] =
+		this match {
+			case Empty => Nil
+			case Node(x, left, right) => x :: left.preOrder ::: right.preOrder
+		}
 
-  def postOrder: List[T] =
-  	this match {
-  		case Empty => Nil
-  	  case Node(x, left, right) => left.postOrder ::: (right.postOrder :+ x)
-  	}
+	def postOrder: List[T] =
+		this match {
+			case Empty => Nil
+			case Node(x, left, right) => left.postOrder ::: (right.postOrder :+ x)
+		}
 
 	// not entirely clear what the thinking is regarding mapping over bsts, its a bit improper...
 
