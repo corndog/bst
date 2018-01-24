@@ -3,6 +3,7 @@ import bst._
 
 object Main extends App {
 
+  // tests???
   val bst = Tree(5)
   println(s"bst?  ${bst}")
 
@@ -26,5 +27,17 @@ object Main extends App {
   println(s"${t.inOrder}")
   println(s"${t.preOrder}")
   println(s"${t.postOrder}")
+
+
+  val h = Tree.balanced(1)
+  println(s"$h\n${h.height}\n")
+  val hi = Tree.balanced(1,2)
+  println(s"$hi\n${hi.height}\n")
+  val i = Tree.balanced(1,2,3)
+  println(s"$i\n${i.height}\n")
+  val j = Tree.balanced(45,80,32, 21, 59, 99, 12, 8, 17, 101, 4, 61, 4, 21)
+  println(s"$j\n${j.height}\n")
+  val k = Tree(1,2,3,4,5,2)
+  println(s"$k\n${k.height}")
 
 }

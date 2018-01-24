@@ -26,6 +26,13 @@ trait Tree[+T] {
 					left.find(y)
 		}
 
+	def height: Int = 
+		this match {
+			case Empty => 0
+			case Node(x, left, right) =>
+				1 + Math.max(left.height, right.height)
+		}
+
 	def inOrder: List[T] =
 		this match {
 	  		case Empty => Nil
@@ -72,13 +79,18 @@ object Tree {
 	private def apply[T](x: T, left: Tree[T], right: Tree[T]) = new Node(x, left, right) {}
 
 	def apply[T](values: T*)(implicit Ord: Ordering[T]): Tree[T] =
+		values.toList.foldLeft(Empty: Tree[T]){ (tree, x) => tree.add(x) }
+
+	def balanced[T](values: T*)(implicit Ord: Ordering[T]): Tree[T] =
 		values.toList match {
 			case Nil => Empty
-			case h :: t => {
-				val (less, greater) = t.partition(x => Ord.compare(x, h) < 0)
-				Tree(h, Tree(less:_*), Tree(greater:_*))
-			}
-		}
+			case vs => 
+				val sorted = vs.distinct.sorted
+				val ix = sorted.size / 2
+				val pivot = sorted(ix)
+				val (less, greater) = sorted.splitAt(ix)
+				Tree(greater.head, Tree.balanced(less:_*), Tree.balanced(greater.tail:_*))
+		}		
 
 	def tryInit[T: Ordering](x: T, left: Tree[T], right: Tree[T]): Option[Tree[T]] = {
 		val t = apply(x, left, right)
